@@ -16,6 +16,7 @@ using Resthopper.IO;
 using Newtonsoft.Json;
 using System.Linq;
 using Serilog;
+using System.Security.Cryptography;
 
 namespace compute.geometry
 {
@@ -43,13 +44,25 @@ namespace compute.geometry
             return rc;
         }
 
-        public static GrasshopperDefinition FromBase64String(string data)
+        public static GrasshopperDefinition FromBase64String(string data, bool cache = true)
         {
+            var sha = GetHash(data);
+            GrasshopperDefinition rc = DataCache.GetCachedDefinition(sha);
+            if (rc != null)
+            {
+                Log.Debug("Using cached definition");
+                return rc;
+            }
             var archive = ArchiveFromBase64String(data);
             if (archive == null)
                 return null;
 
-            var rc = Construct(archive);
+            rc = Construct(archive);
+            //if (cache)
+            //{
+            //    DataCache.SetCachedDefinition(sha, rc);
+            //    rc.InDataCache = true;
+            //}
             return rc;
         }
 
@@ -58,6 +71,20 @@ namespace compute.geometry
             var definition = new GH_Document();
             if (!archive.ExtractObject(definition, "Definition"))
                 throw new Exception("Unable to extract definition from archive");
+
+            // raise DocumentServer.DocumentAdded event
+            Grasshopper.Instances.DocumentServer.AddDocument(definition);
+
+            // pre-solve
+            //try
+            //{
+            //    definition.Enabled = true;
+            //    definition.NewSolution(false, GH_SolutionMode.CommandLine);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Warning($"Presolve threw exception: {ex}");
+            //}
 
             GrasshopperDefinition rc = new GrasshopperDefinition(definition);
             foreach( var obj in definition.Objects)
@@ -411,6 +438,12 @@ namespace compute.geometry
             Schema outputSchema = new Schema();
             outputSchema.Algo = "";
 
+            foreach (var obj in Definition.Objects)
+            {
+                if (obj is GH_Component comp)
+                    Log.Debug($"{comp.Name}: {comp.Phase}");
+            }
+
             // solve definition
             Definition.Enabled = true;
             Definition.NewSolution(false, GH_SolutionMode.CommandLine);
@@ -566,6 +599,28 @@ namespace compute.geometry
                     }
                 }
             }
+        }
+
+        private static readonly SHA1 _sha1 = SHA1.Create();
+        private static string GetHash(string input)
+        {
+            // https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash?view=netframework-4.8
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = _sha1.ComputeHash(System.Text.Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            var sBuilder = new System.Text.StringBuilder();
+
+            // Loop through each byte of the hashed data
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
         }
 
         public IoResponseSchema GetInputsAndOutputs()

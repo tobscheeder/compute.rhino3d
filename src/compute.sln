@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "compute.geometry", "compute.geometry\compute.geometry.csproj", "{01757ED0-58C4-47DA-926A-70ACD31B93E1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "compute.geometry.tests", "compute.geometry.tests\compute.geometry.tests.csproj", "{A407B397-11CA-4C57-A107-CB40E60686E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{01757ED0-58C4-47DA-926A-70ACD31B93E1}.Debug|x64.Build.0 = Debug|x64
 		{01757ED0-58C4-47DA-926A-70ACD31B93E1}.Release|x64.ActiveCfg = Release|x64
 		{01757ED0-58C4-47DA-926A-70ACD31B93E1}.Release|x64.Build.0 = Release|x64
+		{A407B397-11CA-4C57-A107-CB40E60686E4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A407B397-11CA-4C57-A107-CB40E60686E4}.Debug|x64.Build.0 = Debug|Any CPU
+		{A407B397-11CA-4C57-A107-CB40E60686E4}.Release|x64.ActiveCfg = Release|Any CPU
+		{A407B397-11CA-4C57-A107-CB40E60686E4}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -121,7 +121,7 @@ namespace compute.geometry
     {
         public RhinoGetModule(IRouteCacheProvider routeCacheProvider)
         {
-            Get["/sdk"] = _ =>
+            Get("/sdk", _ =>
             {
                 var result = new StringBuilder("<!DOCTYPE html><html><body>");
                 var cache = routeCacheProvider.GetCache();
@@ -145,12 +145,12 @@ namespace compute.geometry
 
                 result.AppendLine("</p></body></html>");
                 return result.ToString();
-            };
+            });
 
             foreach(var endpoint in GeometryEndPoint.AllEndPoints)
             {
                 string key = endpoint.PathURL;
-                Get[key] = _ => endpoint.Get(Context);
+                Get(key, _ => endpoint.Get(Context));
             }
         }
     }
@@ -162,12 +162,12 @@ namespace compute.geometry
             foreach (var endpoint in GeometryEndPoint.AllEndPoints)
             {
                 string key = endpoint.PathURL;
-                Post[key] = _ =>
+                Post(key, _ =>
                 {
                     var r = endpoint.Post(Context);
                     r.ContentType = "application/json";
                     return r;
-                };
+                });
             }
         }
     }

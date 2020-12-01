@@ -26,7 +26,7 @@ namespace compute.geometry
             if (loadComputePlugins != null)
                 loadComputePlugins.Invoke(null, null);
 
-            Nancy.StaticConfiguration.DisableErrorTraces = false;
+            //Nancy.StaticConfiguration.DisableErrorTraces = false;
 
             pipelines.OnError += LogError;
             ApiKey.Initialize(pipelines);

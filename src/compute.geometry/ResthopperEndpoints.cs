@@ -20,8 +20,8 @@ namespace compute.geometry
     {
         public ResthopperEndpointsModule(Nancy.Routing.IRouteCacheProvider routeCacheProvider)
         {
-            Post["/grasshopper"] = _ => Grasshopper(Context);
-            Post["/io"] = _ => GetIoNames(Context);
+            Post("/grasshopper", _ => Grasshopper(Context));
+            Post("/io", _ => GetIoNames(Context));
         }
 
         public static GH_Archive ArchiveFromUrl(string url)

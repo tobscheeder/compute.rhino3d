@@ -9,11 +9,11 @@ namespace compute.geometry
     {
         public FixedEndPointsModule(Nancy.Routing.IRouteCacheProvider routeCacheProvider)
         {
-            Get[""] = _ => HomePage(Context);
-            Get["/healthcheck"] = _ => "healthy";
-            Get["version"] = _ => GetVersion(Context);
-            Get["servertime"] = _ => ServerTime(Context);
-            Get["sdk/csharp"] = _ => CSharpSdk(Context);
+            Get("", _ => HomePage(Context));
+            Get("/healthcheck", _ => "healthy");
+            Get("version", _ => GetVersion(Context));
+            Get("servertime", _ => ServerTime(Context));
+            Get("sdk/csharp", _ => CSharpSdk(Context));
         }
 
         static Response HomePage(NancyContext ctx)

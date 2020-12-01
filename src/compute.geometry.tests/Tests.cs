@@ -60,6 +60,10 @@ namespace compute.geometry.tests
             var sphereJson = "[" + sphere.ToJSON(options) + "]";
             var content = new StringContent(sphereJson, System.Text.Encoding.UTF8, "application/json");
 
+            // bug!
+            var reqBody = await content.ReadAsStringAsync();
+            Assert.That(reqBody, Is.Not.Empty);
+
             // make request
             var res = await _server.HttpClient.PostAsync("rhino/geometry/mesh/createfrombrep", content);
 

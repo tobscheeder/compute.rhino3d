@@ -60,7 +60,7 @@ namespace compute.geometry.tests
             var sphereJson = "[" + sphere.ToJSON(options) + "]";
             var content = new StringContent(sphereJson, System.Text.Encoding.UTF8, "application/json");
 
-            // bug!
+            // nancy 2.0.0 bug!
             var reqBody = await content.ReadAsStringAsync();
             Assert.That(reqBody, Is.Not.Empty);
 

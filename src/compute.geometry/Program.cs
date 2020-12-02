@@ -144,7 +144,8 @@ namespace compute.geometry
                 }
 
                 result.AppendLine("</p></body></html>");
-                return result.ToString();
+
+                return new Nancy.Responses.TextResponse(result.ToString(), "text/html");
             });
 
             foreach(var endpoint in GeometryEndPoint.AllEndPoints)

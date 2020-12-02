@@ -318,7 +318,7 @@ namespace compute.geometry
                 }
             }
             sb.AppendLine("</p></body></html>");
-            return sb.ToString();
+            return new Nancy.Responses.TextResponse(sb.ToString(), "text/html");
         }
 
         enum StopAt : int

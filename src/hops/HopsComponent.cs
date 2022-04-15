@@ -440,6 +440,9 @@ namespace Hops
 
             tsi = new ToolStripMenuItem("Last Solve response...", null, (s, e) => { ExportLastSolveResponse(); });
             restAPITsi.DropDownItems.Add(tsi);
+
+            tsi = new ToolStripMenuItem("Export to web...", null, (s, e) => { ExportToWeb(); });
+            exportTsi.DropDownItems.Add(tsi);
         }
 
         /// <summary>
@@ -638,6 +641,16 @@ for value in values:
             if (dlg.ShowDialog(Grasshopper.Instances.EtoDocumentEditor) == Eto.Forms.DialogResult.Ok)
             {
                 System.IO.File.WriteAllText(dlg.FileName, RemoteDefinition.LastHTTP.SolveResponse);
+            }
+        }
+
+        void ExportToWeb()
+        {
+            var form = new ExportToWebForm();
+            if (form.ShowModal(Grasshopper.Instances.EtoDocumentEditor))
+            {
+                string projectName = form.ProjectName;
+                string projectFolder = form.FolderPath;
             }
         }
 

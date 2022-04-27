@@ -666,7 +666,7 @@ for value in values:
             if (form.ShowModal(Grasshopper.Instances.EtoDocumentEditor))
             {
                 string projectName = form.ProjectName;
-                string projectFolder = form.FolderPath;
+                string projectFolder = form.Directory;
             }
         }
 

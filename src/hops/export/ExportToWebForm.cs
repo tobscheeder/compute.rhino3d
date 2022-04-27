@@ -7,22 +7,23 @@ namespace Hops
     {
         public ExportToWebForm()
         {
-            Title = "Export to web";
+            Title = "Export To The Web";
 
             var projectName_Textbox = new TextBox();
             projectName_Textbox.Size = new Eto.Drawing.Size(250, -1);
             projectName_Textbox.PlaceholderText = "Project Name";
+            projectName_Textbox.Focus();
 
-            var folderPath_Textbox = new TextBox();
-            folderPath_Textbox.ReadOnly = true;
-            folderPath_Textbox.Size = new Eto.Drawing.Size(250, -1);
-            folderPath_Textbox.PlaceholderText = "Export Directory";
+            var directoryPath_Textbox = new TextBox();
+            directoryPath_Textbox.ReadOnly = true;
+            directoryPath_Textbox.Size = new Eto.Drawing.Size(250, -1);
+            directoryPath_Textbox.PlaceholderText = "Export Directory";
 
             bool onWindows = Rhino.Runtime.HostUtils.RunningOnWindows;
             DefaultButton = new Button { Text = onWindows ? "OK" : "Apply" };
             DefaultButton.Click += (sender, e) =>
             {
-                if (String.IsNullOrEmpty(projectName_Textbox.Text) || String.IsNullOrEmpty(folderPath_Textbox.Text))
+                if (String.IsNullOrEmpty(projectName_Textbox.Text) || String.IsNullOrEmpty(directoryPath_Textbox.Text))
                 {
                     DialogResult result = MessageBox.Show(this, "Project name and directory path are required fields.", "Required Field Missing", MessageBoxButtons.OK, MessageBoxType.Information, MessageBoxDefaultButton.OK);
                     if (result == DialogResult.Ok)
@@ -56,7 +57,7 @@ namespace Hops
                 Window parent = onWindows ? this : null;
                 if (dlg.ShowDialog(parent) == DialogResult.Ok)
                 {
-                    folderPath_Textbox.Text = dlg.Directory;
+                    directoryPath_Textbox.Text = dlg.Directory;
                 }
             };
 
@@ -64,7 +65,7 @@ namespace Hops
             {
                 Orientation = Orientation.Horizontal,
                 Spacing = buttons.Spacing.Width,
-                Items = { folderPath_Textbox, folderPickButton }
+                Items = { directoryPath_Textbox, folderPickButton }
             };
 
             Content = new TableLayout
@@ -77,10 +78,10 @@ namespace Hops
                         buttons
                     }
             };
-            Closed += (s, e) => { FolderPath = folderPath_Textbox.Text; ProjectName = projectName_Textbox.Text; };
+            Closed += (s, e) => { Directory = directoryPath_Textbox.Text; ProjectName = projectName_Textbox.Text; };
         }
 
-        public string FolderPath
+        public string Directory
         {
             get;
             set;
